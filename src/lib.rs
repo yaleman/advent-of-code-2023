@@ -7,6 +7,7 @@ use std::fmt::Display;
 #[repr(u8)]
 #[derive(Debug, Clone, Copy)]
 pub enum Digit {
+    Zero,
     One,
     Two,
     Three,
@@ -21,19 +22,20 @@ pub enum Digit {
 
 impl From<Digit> for u8 {
     fn from(value: Digit) -> Self {
-        value as u8 + 1
+        value as u8
     }
 }
 
 impl From<&Digit> for u8 {
     fn from(value: &Digit) -> Self {
-        *value as u8 + 1
+        *value as u8
     }
 }
 
 impl From<Digit> for &'static str {
     fn from(value: Digit) -> Self {
         match value {
+            Digit::Zero => "zero",
             Digit::One => "one",
             Digit::Two => "two",
             Digit::Three => "three",
@@ -58,6 +60,7 @@ impl Display for Digit {
 impl Digit {
     pub fn digits() -> Vec<Digit> {
         vec![
+            Digit::Zero,
             Digit::One,
             Digit::Two,
             Digit::Three,
