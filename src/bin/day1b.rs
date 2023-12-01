@@ -29,15 +29,16 @@ fn test_calculate() {
         .map(|s| s.to_string())
         .collect();
 
-    assert_eq!(calculate(input), 281);
+    assert_eq!(calculate_day1b(input), 281);
 }
 
-fn calculate(input: Vec<String>) -> u32 {
+fn calculate_day1b(input: Vec<impl ToString>) -> u32 {
     let mut sum = 0;
 
     let known_digits = Digit::digits();
 
     for line in input {
+        let line = line.to_string();
         let mut first: Option<u8> = None;
         let mut last: Option<u8> = None;
         println!("Line: {}", line);
@@ -83,11 +84,10 @@ fn calculate(input: Vec<String>) -> u32 {
 }
 
 fn main() {
-    let res = calculate(
+    let res = calculate_day1b(
         read_to_string("inputs/day1a.txt")
             .unwrap()
             .lines()
-            .map(|s| s.to_string())
             .collect(),
     );
     println!("Result: {}", res);
@@ -95,6 +95,6 @@ fn main() {
 
 #[test]
 fn test_calculate_72eightwoh() {
-    let res = calculate(vec!["72eightwoh".to_string()]);
+    let res = calculate_day1b(vec!["72eightwoh".to_string()]);
     assert_eq!(res, 72);
 }
