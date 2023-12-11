@@ -3,7 +3,7 @@ use advent_of_code_2023::paths::*;
 use itertools::Itertools;
 
 #[test]
-fn test_11a() {
+fn test_day11a() {
     /*
 
     In the above example, three columns and two rows contain no galaxies:
@@ -22,16 +22,7 @@ fn test_11a() {
        ^  ^  ^
     */
 
-    let data = r#"...#......
-.......#..
-#.........
-..........
-......#...
-.#........
-.........#
-..........
-.......#..
-#...#....."#;
+    let data = include_str!("../../inputs/test_day11.txt");
 
     assert!(num_columns(data) == 10);
     assert!(num_rows(data) == 10);
@@ -55,11 +46,11 @@ fn test_11a() {
         .to_string()
         .trim()
         .to_string();
-    // println!("expanded:\n{}", expand_galaxies(data));
-    // println!("expected:\n{}", expanded_expected);
-    assert!(expand_galaxies(data) == expanded_expected);
+    println!("expanded:\n{}", expand_galaxies(data, None));
+    println!("expected:\n{}", expanded_expected);
+    assert!(expand_galaxies(data, None) == expanded_expected);
 
-    let coords = get_coordinates(&expand_galaxies(data));
+    let coords = get_coordinates(&expand_galaxies(data, None));
     assert_eq!(coords.iter().combinations(2).count(), 36);
     // dbg!(&coords);
     for wanted in [(0, 11), (5, 11), (4, 0), (0, 2), (12, 7), (9, 10)] {
@@ -97,7 +88,7 @@ fn day11a_test_shortest_path() {
 fn main() {
     let data = include_str!("../../inputs/day11a.txt");
     println!("{}", data);
-    let galaxy = expand_galaxies(data);
+    let galaxy = expand_galaxies(data, None);
     let coords = get_coordinates(&galaxy);
     let shortest_path_list = shortest_paths(&coords);
     let sum_total: usize = shortest_path_list.iter().sum();

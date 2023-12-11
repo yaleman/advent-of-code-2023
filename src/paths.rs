@@ -41,25 +41,31 @@ pub fn empty_rows(input: &str) -> Vec<usize> {
 }
 
 /// Expand the string value of the galaxy to include the "double size" rows and columns
-pub fn expand_galaxies(input: &str) -> String {
+pub fn expand_galaxies(input: &str, extra_size: Option<usize>) -> String {
+    let extra_size = extra_size.unwrap_or(1);
+
     let em_rows = empty_rows(input);
     let em_cols = empty_columns(input);
 
     let mut result = String::new();
     for (row_idx, row) in input.lines().enumerate() {
-        if em_rows.contains(&row_idx) {
-            for _ in 0..=(row.len() + em_rows.len()) {
-                result.push('.');
-            }
-            result.push('\n');
-        }
+        let mut new_row = String::new();
         for (col_idx, char) in row.chars().enumerate() {
             if em_cols.contains(&col_idx) {
-                result.push('.');
+                for _ in 0..extra_size {
+                    new_row.push('.');
+                }
             }
-            result.push(char);
+            new_row.push(char);
         }
-        result.push('\n');
+        result.push_str(&format!("{}\n", new_row));
+        if em_rows.contains(&row_idx) {
+            // add an extra row
+            let row_string = vec!['.'; new_row.len()].iter().join("");
+            for _ in 0..extra_size {
+                result.push_str(&format!("{}\n", row_string));
+            }
+        }
     }
 
     result.trim().to_string()
