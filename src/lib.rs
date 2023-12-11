@@ -1,5 +1,7 @@
 use std::fmt::Display;
 
+pub mod paths;
+
 ///```
 /// let digit: u8 = advent_of_code_2023::Digit::One.into();
 /// assert_eq!(digit, 1);
